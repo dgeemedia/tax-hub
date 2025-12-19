@@ -1,3 +1,4 @@
+// apps/web/src/app/financial-statements/page.tsx
 import { Navbar } from "@/components/layout/Navbar"
 import { Footer } from "@/components/layout/Footer"
 import { FinancialStatementsHero } from "@/components/financial-statements/Hero"
