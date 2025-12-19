@@ -12,7 +12,7 @@ export function Hero() {
           <div className="space-y-8">
             <div className="inline-block">
               <span className="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
-                🇳🇬 Built for Nigerians
+                Your Trusted Nigerian Tax Solution
               </span>
             </div>
 

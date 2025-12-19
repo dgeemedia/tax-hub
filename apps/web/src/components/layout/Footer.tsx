@@ -62,7 +62,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-gray-800 pt-8 text-center text-sm">
-          <p>© 2024 TaxHub NG. All rights reserved. | Built with ❤️ for Nigeria</p>
+          <p>© 2024 TaxHub NG. All rights reserved.</p>
         </div>
       </div>
     </footer>
