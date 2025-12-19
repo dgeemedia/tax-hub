@@ -63,7 +63,7 @@ importers:
         specifier: ^3.3.0
         version: 3.6.0
       framer-motion:
-        specifier: ^11.0.0
+        specifier: ^11.18.2
         version: 11.18.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       jsonwebtoken:
         specifier: ^9.0.2
@@ -143,13 +143,12 @@ importers:
         version: 5.9.3
 
   packages/database:
-    dependencies:
-      '@prisma/client':
-        specifier: ^5.9.0
-        version: 5.22.0(prisma@5.22.0)
     devDependencies:
+      '@prisma/client':
+        specifier: ^5.22.0
+        version: 5.22.0(prisma@5.22.0)
       prisma:
-        specifier: ^5.9.0
+        specifier: ^5.22.0
         version: 5.22.0
 
   packages/shared:
