@@ -1,12 +1,12 @@
+// apps/web/src/app/api/upload/route.ts
 import { NextResponse } from "next/server"
-import { getServerSession } from "next-auth"
-import { authOptions } from "@/lib/auth"
+import { auth } from "@/lib/auth"  // Changed
 import { uploadToCloudinary } from "@/lib/upload"
 import { prisma } from "@/lib/db"
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await auth()  // Changed
     
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })

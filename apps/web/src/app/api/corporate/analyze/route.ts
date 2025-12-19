@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
-import { getServerSession } from "next-auth"
-import { authOptions } from "@/lib/auth"
+import { auth } from "@/lib/auth"
 import { uploadToCloudinary } from "@/lib/upload"
 import { prisma } from "@/lib/db"
 import OpenAI from "openai"
@@ -12,7 +11,8 @@ const openai = new OpenAI({
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions)
+    // Get session using Auth.js v5's auth() function
+    const session = await auth()
     
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
