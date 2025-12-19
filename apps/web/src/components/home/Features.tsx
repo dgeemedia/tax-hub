@@ -1,4 +1,4 @@
-import { Calculator, FileText, Shield, Zap, Brain, CreditCard } from "lucide-react"
+import { Calculator, FileText, Shield, Zap, Brain, CreditCard, Users, TrendingDown } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 const features = [
@@ -11,6 +11,12 @@ const features = [
     icon: Brain,
     title: "AI Document Analysis",
     description: "Upload your financial statements and let our AI analyze and calculate your tax liability automatically."
+  },
+  {
+    icon: Users,
+    title: "Professional Financial Statements",
+    description: "Get expert-prepared financial statements at 70% less cost. AI-assisted + Certified professionals review. DIY or full-service options available.",
+    highlight: true
   },
   {
     icon: FileText,
@@ -31,6 +37,11 @@ const features = [
     icon: CreditCard,
     title: "Integrated Payments",
     description: "Pay your taxes directly through our platform with Paystack. Quick, secure, and hassle-free."
+  },
+  {
+    icon: TrendingDown,
+    title: "Save Up to 70%",
+    description: "Why pay ₦500k-₦2M for financial statements? Get professional-grade statements from ₦50k with AI + Expert review."
   }
 ]
 
@@ -47,16 +58,28 @@ export function Features() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, index) => {
             const Icon = feature.icon
             return (
-              <Card key={index} className="border-2 hover:border-primary/50 transition-colors">
+              <Card 
+                key={index} 
+                className={`border-2 hover:border-primary/50 transition-colors ${
+                  feature.highlight ? 'border-primary/30 bg-primary/5' : ''
+                }`}
+              >
                 <CardHeader>
-                  <div className="h-12 w-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                    <Icon className="h-6 w-6 text-primary" />
+                  <div className={`h-12 w-12 rounded-lg flex items-center justify-center mb-4 ${
+                    feature.highlight ? 'bg-primary text-white' : 'bg-primary/10'
+                  }`}>
+                    <Icon className={`h-6 w-6 ${feature.highlight ? 'text-white' : 'text-primary'}`} />
                   </div>
-                  <CardTitle>{feature.title}</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    {feature.title}
+                    {feature.highlight && (
+                      <span className="text-xs bg-yellow-400 text-black px-2 py-1 rounded-full">NEW</span>
+                    )}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-base">{feature.description}</CardDescription>
