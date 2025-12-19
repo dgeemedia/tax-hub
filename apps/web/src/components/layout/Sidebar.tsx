@@ -12,7 +12,8 @@ import {
   Upload, 
   CreditCard,
   LogOut,
-  Building2
+  Building2,
+  FileCheck
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -36,6 +37,12 @@ const menuItems = [
     title: "File Tax",
     href: "/file-tax",
     icon: FileText
+  },
+  {
+    title: "Financial Statements",
+    href: "/financial-statements-orders",
+    icon: FileCheck,
+    badge: "NEW"
   },
   {
     title: "Documents",
@@ -96,7 +103,12 @@ export function Sidebar() {
               )}
             >
               <Icon className="h-5 w-5" />
-              <span className="font-medium">{item.title}</span>
+              <span className="font-medium flex-1">{item.title}</span>
+              {item.badge && (
+                <span className="text-xs bg-yellow-400 text-black px-2 py-0.5 rounded-full font-bold">
+                  {item.badge}
+                </span>
+              )}
             </Link>
           )
         })}

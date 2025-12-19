@@ -17,7 +17,8 @@ const plans = [
     ],
     cta: "Get Started",
     href: "/register?type=individual",
-    popular: false
+    popular: false,
+    badge: null
   },
   {
     name: "Individual Pro",
@@ -34,7 +35,8 @@ const plans = [
     ],
     cta: "Upgrade Now",
     href: "/register?type=individual&plan=pro",
-    popular: true
+    popular: true,
+    badge: null
   },
   {
     name: "Corporate",
@@ -53,7 +55,27 @@ const plans = [
     ],
     cta: "Contact Sales",
     href: "/register?type=corporate",
-    popular: false
+    popular: false,
+    badge: null
+  },
+  {
+    name: "Financial Statements",
+    price: "From ₦50,000",
+    period: "",
+    description: "Professional-grade financial statements",
+    features: [
+      "AI-assisted preparation",
+      "ICAN/ACCA certified review",
+      "IFRS & Nigerian GAAP compliant",
+      "3-7 days delivery",
+      "Free revisions included",
+      "Integrated tax filing",
+      "Save up to 70% vs traditional firms"
+    ],
+    cta: "Learn More",
+    href: "/financial-statements",
+    popular: false,
+    badge: "NEW"
   }
 ]
 
@@ -68,18 +90,25 @@ export function Pricing() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
           {plans.map((plan, index) => (
             <Card
               key={index}
               className={`relative ${
                 plan.popular ? "border-primary shadow-lg scale-105" : ""
-              }`}
+              } ${plan.badge ? "border-yellow-400 shadow-md" : ""}`}
             >
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                   <span className="bg-primary text-white px-4 py-1 rounded-full text-sm font-medium">
                     Most Popular
+                  </span>
+                </div>
+              )}
+              {plan.badge && (
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                  <span className="bg-yellow-400 text-black px-4 py-1 rounded-full text-sm font-bold">
+                    {plan.badge}
                   </span>
                 </div>
               )}

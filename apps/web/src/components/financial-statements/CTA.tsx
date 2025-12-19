@@ -22,3 +22,16 @@ export function CTA() {
           </Link>
           <Link href="/contact">
             <Button size="lg" variant="outline" className="text-lg px-8 bg-transparent text-white border-white hover:
+            bg-white hover:text-primary">
+            <Calendar className="mr-2 h-5 w-5" />
+            Schedule Free Consultation
+            </Button>
+          </Link>
+        </div>
+            <p className="mt-8 text-sm opacity-80">
+            ⚡ Limited slots available - 50+ businesses served this month
+            </p>
+        </div>
+    </section>
+    )
+}

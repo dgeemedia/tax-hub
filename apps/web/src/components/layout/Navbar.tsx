@@ -22,6 +22,10 @@ export function Navbar() {
             <Link href="#features" className="text-sm font-medium hover:text-primary">
               Features
             </Link>
+            <Link href="/financial-statements" className="text-sm font-medium hover:text-primary flex items-center gap-1">
+              Financial Statements
+              <span className="text-xs bg-yellow-400 text-black px-2 py-0.5 rounded-full font-bold">NEW</span>
+            </Link>
             <Link href="#how-it-works" className="text-sm font-medium hover:text-primary">
               How It Works
             </Link>
@@ -50,6 +54,9 @@ export function Navbar() {
           <div className="md:hidden py-4 space-y-4">
             <Link href="#features" className="block text-sm font-medium hover:text-primary">
               Features
+            </Link>
+            <Link href="/financial-statements" className="block text-sm font-medium hover:text-primary">
+              Financial Statements <span className="text-xs bg-yellow-400 text-black px-2 py-0.5 rounded-full font-bold ml-1">NEW</span>
             </Link>
             <Link href="#how-it-works" className="block text-sm font-medium hover:text-primary">
               How It Works
