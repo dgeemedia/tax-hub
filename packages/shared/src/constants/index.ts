@@ -1,3 +1,4 @@
+// packages/shared/src/constants/index.ts
 export const NIGERIAN_STATES = [
   'Abia', 'Adamawa', 'Akwa Ibom', 'Anambra', 'Bauchi', 'Bayelsa',
   'Benue', 'Borno', 'Cross River', 'Delta', 'Ebonyi', 'Edo',

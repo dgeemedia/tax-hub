@@ -1,5 +1,5 @@
-import { getServerSession } from "next-auth"
-import { authOptions } from "@/lib/auth"
+// apps/web/src/app/(dashboard)/dashboard/page.tsx
+import { auth } from "@/lib/auth"  // Changed from getServerSession
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/db"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -7,14 +7,14 @@ import { formatCurrency } from "@/lib/utils"
 import { FileText, Calculator, CreditCard, CheckCircle } from "lucide-react"
 
 export default async function DashboardPage() {
-  const session = await getServerSession(authOptions)
+  const session = await auth()  // Changed from getServerSession(authOptions)
   
   if (!session) {
     redirect("/login")
   }
 
   const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
+    where: { id: session.user.id },  // TypeScript knows about user.id from auth() return type
     include: {
       taxReturns: {
         orderBy: { createdAt: 'desc' },

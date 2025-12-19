@@ -1,5 +1,5 @@
-import { getServerSession } from "next-auth"
-import { authOptions } from "@/lib/auth"
+// apps/web/src/app/(corporate)/layout.tsx
+import { auth } from "@/lib/auth"  // Changed from getServerSession
 import { redirect } from "next/navigation"
 import { Sidebar } from "@/components/layout/Sidebar"
 import { Suspense } from "react"
@@ -10,14 +10,17 @@ export default async function CorporateLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await getServerSession(authOptions)
+  const session = await auth()  // Changed from getServerSession(authOptions)
 
   if (!session) {
     redirect("/login")
   }
 
-  // Check if user is corporate (with optional chaining)
-  if (session.user?.userType !== "CORPORATE") {
+  // Check if user is corporate
+  // Note: Type assertion might be needed due to Auth.js v5 types
+  const user = session.user as any
+  
+  if (user?.userType !== "CORPORATE") {
     redirect("/dashboard")
   }
 

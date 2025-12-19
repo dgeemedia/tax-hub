@@ -1,12 +1,12 @@
-import { getServerSession } from "next-auth"
-import { authOptions } from "@/lib/auth"
+// apps/web/src/app/(dashboard)/profile/page.tsx
+import { auth } from "@/lib/auth"  // Changed
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/db"
 import { ProfileForm } from "@/components/forms/ProfileForm"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default async function ProfilePage() {
-  const session = await getServerSession(authOptions)
+  const session = await auth()  // Changed
 
   if (!session) {
     redirect("/login")
