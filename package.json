@@ -4,8 +4,8 @@
   "private": true,
   "packageManager": "pnpm@10.20.0",
   "scripts": {
-    "dev": "turbo run dev",
-    "build": "turbo run build",
+    "dev": "turbo run dev --filter=web",
+    "build": "turbo run build --filter=web",
     "lint": "turbo run lint",
     "db:generate": "cd packages/database && pnpm prisma generate",
     "db:push": "cd packages/database && pnpm prisma db push",
@@ -17,7 +17,6 @@
     "typescript": "^5.3.3"
   },
   "engines": {
-    "node": ">=18.0.0",
-    "pnpm": ">=8.0.0"
+    "node": "18.x"
   }
 }
