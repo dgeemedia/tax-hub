@@ -127,12 +127,14 @@ model TaxAnalysis {
 }
 
 model Payment {
-  id            String   @id @default(cuid())
-  userId        String
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  amount        Float
-  reference     String   @unique
-  status        String   @default("PENDING")
-  paidAt        DateTime?
-  createdAt     DateTime @default(now())
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount    Float
+  reference String   @unique
+  purpose   String?  // optional field for payment purpose
+  plan      String?  // optional field for subscription plan
+  status    String   @default("PENDING")
+  paidAt    DateTime?
+  createdAt DateTime @default(now())
 }

@@ -127,7 +127,7 @@ export default async function DashboardPage() {
                 {user?.payments.map((payment) => (
                   <div key={payment.id} className="flex justify-between items-center">
                     <div>
-                      <p className="font-medium">{payment.purpose}</p>
+                      <p className="font-medium">{payment.reference}</p>
                       <p className="text-sm text-muted-foreground">
                         {new Date(payment.createdAt).toLocaleDateString()}
                       </p>

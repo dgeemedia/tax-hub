@@ -1,19 +1,18 @@
 // apps/web/src/app/api/payments/initialize/route.ts
 import { NextResponse } from "next/server"
-import { auth } from "@/lib/auth"  // Changed
+import { auth } from "@/lib/auth"
 import { initializePayment } from "@/lib/paystack"
 import { prisma } from "@/lib/db"
 
 export async function POST(req: Request) {
   try {
-    const session = await auth()  // Changed
+    const session = await auth()
     
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const body = await req.json()
-    const { amount, purpose, plan } = body
+    const { amount, purpose, plan } = await req.json()
 
     const user = await prisma.user.findUnique({
       where: { id: session.user.id }
@@ -23,31 +22,25 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "User not found" }, { status: 404 })
     }
 
-    // Generate unique reference
     const reference = `TXH-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
 
-    // Create payment record
+    // Create payment record with purpose & plan
     const payment = await prisma.payment.create({
       data: {
         userId: session.user.id,
         amount,
         reference,
         purpose,
+        plan,
         status: "PENDING"
       }
     })
 
-    // Initialize Paystack payment
     const paystackResponse = await initializePayment(
       user.email,
       amount,
       reference,
-      {
-        userId: session.user.id,
-        paymentId: payment.id,
-        purpose,
-        plan
-      }
+      { userId: session.user.id, paymentId: payment.id, purpose, plan }
     )
 
     return NextResponse.json({

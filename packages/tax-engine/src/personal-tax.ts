@@ -1,3 +1,4 @@
+// packages/tax-engine/src/personal-tax.ts
 export const PERSONAL_TAX_BRACKETS_2024 = [
   { min: 0, max: 300000, rate: 0.07 },
   { min: 300000, max: 600000, rate: 0.11 },

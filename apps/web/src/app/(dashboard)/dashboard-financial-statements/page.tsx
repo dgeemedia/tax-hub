@@ -1,4 +1,4 @@
-// apps/web/src/app/%28dashboard%29/financial-statements/page.tsx
+// apps/web/src/app/(dashboard)/financial-statements/page.tsx
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Upload, Clock, CheckCircle, FileText } from "lucide-react"
@@ -14,7 +14,7 @@ export default function FinancialStatementsOrderPage() {
             Order and manage your professional financial statements
           </p>
         </div>
-        <Link href="/financial-statements">
+        <Link href="/dashboard/financial-statements">
           <Button>
             <FileText className="h-4 w-4 mr-2" />
             New Order
@@ -68,7 +68,7 @@ export default function FinancialStatementsOrderPage() {
           <div className="text-center py-12 text-muted-foreground">
             <Upload className="h-12 w-12 mx-auto mb-4 opacity-50" />
             <p className="mb-4">No orders yet</p>
-            <Link href="/financial-statements">
+            <Link href="/dashboard/financial-statements">
               <Button>Create Your First Order</Button>
             </Link>
           </div>
