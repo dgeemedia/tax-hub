@@ -1,7 +1,7 @@
 // apps/web/src/app/(dashboard)/dashboard/page.tsx
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
-import { prisma, Prisma } from "taxhub-database"
+import { prisma, Prisma } from "@taxhub/database";
 
 import {
   Card,
