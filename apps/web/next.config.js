@@ -1,17 +1,11 @@
 /** @type {import('next').NextConfig} */
-const path = require('path')
-
 const nextConfig = {
+  transpilePackages: ['database', 'tax-engine', 'shared'],
   images: {
     domains: ['localhost', 'res.cloudinary.com', 'images.unsplash.com'],
   },
-  webpack: (config) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      database: path.resolve(__dirname, '../../packages/database'),
-      'tax-engine': path.resolve(__dirname, '../../packages/tax-engine/src'),
-    }
-    return config
+  experimental: {
+    serverComponentsExternalPackages: ['@prisma/client', 'bcryptjs'],
   },
 }
 

@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum UserType {
+  INDIVIDUAL
+  CORPORATE
+}
+
+enum TaxFilingStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  firstName     String?
+  lastName      String?
+  phone         String?
+  userType      UserType  @default(INDIVIDUAL)
+  nin           String?   @unique
+  tin           String?   @unique
+  verified      Boolean   @default(false)
+  emailVerified DateTime? 
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  profile       Profile?
+  taxReturns    TaxReturn[]
+  documents     Document[]
+  payments      Payment[]
+  corporateProfile CorporateProfile?
+}
+
+model Profile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dateOfBirth     DateTime?
+  address         String?
+  city            String?
+  state           String?
+  annualIncome    Float?
+  employmentType  String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model CorporateProfile {
+  id                  String   @id @default(cuid())
+  userId              String   @unique
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName         String
+  registrationNumber  String   @unique
+  industry            String?
+  annualRevenue       Float?
+  isPaid              Boolean  @default(false)
+  subscriptionExpiry  DateTime?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  
+  financialStatements FinancialStatement[]
+  taxAnalyses         TaxAnalysis[]
+}
+
+model TaxReturn {
+  id              String          @id @default(cuid())
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  taxYear         Int
+  grossIncome     Float
+  taxableIncome   Float
+  taxAmount       Float
+  status          TaxFilingStatus @default(DRAFT)
+  filedAt         DateTime?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+}
+
+model Document {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fileName    String
+  fileUrl     String
+  fileSize    Int
+  uploadedAt  DateTime @default(now())
+}
+
+model FinancialStatement {
+  id                String           @id @default(cuid())
+  corporateId       String
+  corporate         CorporateProfile @relation(fields: [corporateId], references: [id], onDelete: Cascade)
+  financialYear     Int
+  fileName          String
+  fileUrl           String
+  fileType          String
+  uploadedAt        DateTime         @default(now())
+  processed         Boolean          @default(false)
+  extractedData     Json?
+  taxAnalysis       TaxAnalysis?
+}
+
+model TaxAnalysis {
+  id                    String             @id @default(cuid())
+  corporateId           String
+  corporate             CorporateProfile   @relation(fields: [corporateId], references: [id], onDelete: Cascade)
+  financialStatementId  String             @unique
+  financialStatement    FinancialStatement @relation(fields: [financialStatementId], references: [id], onDelete: Cascade)
+  revenue               Float
+  expenses              Float
+  profit                Float
+  corporateTax          Float
+  totalTaxLiability     Float
+  recommendations       Json?
+  analysisDate          DateTime           @default(now())
+}
+
+model Payment {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount        Float
+  reference     String   @unique
+  status        String   @default("PENDING")
+  paidAt        DateTime?
+  createdAt     DateTime @default(now())
+}
