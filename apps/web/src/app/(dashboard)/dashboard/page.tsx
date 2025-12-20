@@ -1,49 +1,73 @@
 // apps/web/src/app/(dashboard)/dashboard/page.tsx
-import { auth } from "@/lib/auth"  // Changed from getServerSession
+import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
-import { prisma } from "@/lib/db"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { prisma, Prisma } from "taxhub-database"
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card"
+
 import { formatCurrency } from "@/lib/utils"
 import { FileText, Calculator, CreditCard, CheckCircle } from "lucide-react"
 
+/**
+ * Prisma-typed user payload for the dashboard
+ */
+type DashboardUser = Prisma.UserGetPayload<{
+  include: {
+    taxReturns: true
+    payments: true
+  }
+}>
+
 export default async function DashboardPage() {
-  const session = await auth()  // Changed from getServerSession(authOptions)
-  
-  if (!session) {
+  const session = await auth()
+
+  if (!session?.user?.id) {
     redirect("/login")
   }
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },  // TypeScript knows about user.id from auth() return type
+  const user = (await prisma.user.findUnique({
+    where: { id: session.user.id },
     include: {
       taxReturns: {
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: "desc" },
         take: 5
       },
       payments: {
-        where: { status: 'COMPLETED' },
-        orderBy: { createdAt: 'desc' },
+        where: { status: "COMPLETED" },
+        orderBy: { createdAt: "desc" },
         take: 5
       }
     }
-  })
+  })) as DashboardUser | null
+
+  if (!user) {
+    redirect("/login")
+  }
 
   const stats = {
-    totalFilings: user?.taxReturns.length || 0,
-    pendingFilings: user?.taxReturns.filter(t => t.status === 'DRAFT').length || 0,
-    totalPaid: user?.payments.reduce((sum, p) => sum + p.amount, 0) || 0
+    totalFilings: user.taxReturns.length,
+    pendingFilings: user.taxReturns.filter(t => t.status === "DRAFT").length,
+    totalPaid: user.payments.reduce((sum, p) => sum + p.amount, 0)
   }
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">Welcome back, {user?.firstName}!</h1>
-        <p className="text-muted-foreground">Manage your tax obligations and stay compliant</p>
+        <h1 className="text-3xl font-bold">Welcome back, {user.firstName}!</h1>
+        <p className="text-muted-foreground">
+          Manage your tax obligations and stay compliant
+        </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Total Filings</CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -54,7 +78,7 @@ export default async function DashboardPage() {
         </Card>
 
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Pending Filings</CardTitle>
             <Calculator className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -65,7 +89,7 @@ export default async function DashboardPage() {
         </Card>
 
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Total Paid</CardTitle>
             <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -76,7 +100,7 @@ export default async function DashboardPage() {
         </Card>
 
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">Compliance Status</CardTitle>
             <CheckCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -94,11 +118,11 @@ export default async function DashboardPage() {
             <CardDescription>Your latest tax filings</CardDescription>
           </CardHeader>
           <CardContent>
-            {user?.taxReturns.length === 0 ? (
+            {user.taxReturns.length === 0 ? (
               <p className="text-sm text-muted-foreground">No tax returns filed yet</p>
             ) : (
               <div className="space-y-4">
-                {user?.taxReturns.map((taxReturn) => (
+                {user.taxReturns.map((taxReturn) => (
                   <div key={taxReturn.id} className="flex justify-between items-center">
                     <div>
                       <p className="font-medium">{taxReturn.taxYear} Tax Return</p>
@@ -120,11 +144,11 @@ export default async function DashboardPage() {
             <CardDescription>Your payment history</CardDescription>
           </CardHeader>
           <CardContent>
-            {user?.payments.length === 0 ? (
+            {user.payments.length === 0 ? (
               <p className="text-sm text-muted-foreground">No payments made yet</p>
             ) : (
               <div className="space-y-4">
-                {user?.payments.map((payment) => (
+                {user.payments.map((payment) => (
                   <div key={payment.id} className="flex justify-between items-center">
                     <div>
                       <p className="font-medium">{payment.reference}</p>

@@ -1,3 +1,4 @@
+// apps/web/src/lib/paystack.ts
 import axios from 'axios'
 
 const PAYSTACK_SECRET = process.env.PAYSTACK_SECRET_KEY

@@ -4,8 +4,8 @@
   "private": true,
   "packageManager": "pnpm@10.20.0",
   "scripts": {
-    "dev": "turbo run dev --filter=web",
-    "build": "pnpm db:generate && turbo run build --filter=web",
+    "dev": "turbo run dev --filter=@taxhub/web",
+    "build": "pnpm db:generate && turbo run build --filter=@taxhub/web",
     "lint": "turbo run lint",
     "db:generate": "cd packages/database && pnpm prisma generate",
     "db:push": "cd packages/database && pnpm prisma db push",
