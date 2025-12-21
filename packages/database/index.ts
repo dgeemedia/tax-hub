@@ -1,3 +1,8 @@
 // packages/database/index.ts
-export { PrismaClient, Prisma } from "@prisma/client"
+import { PrismaClient, Prisma } from "@prisma/client"
+
+// Create a singleton instance
+const prisma = new PrismaClient()
+
+export { prisma, Prisma, PrismaClient }
 export * from "@prisma/client"
