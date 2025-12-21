@@ -1,16 +1,27 @@
 {
   "name": "@taxhub/database",
-  "private": true,
-  "dependencies": {
-    "@prisma/client": "5.22.0"
-  },
-  "devDependencies": {
-    "prisma": "5.22.0"
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./client": "./node_modules/@prisma/client/index.js"
   },
   "scripts": {
+    "build": "prisma generate && tsc",
     "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.22.0",
+    "typescript": "^5.3.3"
   }
 }

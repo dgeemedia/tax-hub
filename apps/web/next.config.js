@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ['database', 'tax-engine', 'shared'],
+  transpilePackages: ['@taxhub/database', 'tax-engine'],
   images: {
     domains: ['localhost', 'res.cloudinary.com', 'images.unsplash.com'],
   },

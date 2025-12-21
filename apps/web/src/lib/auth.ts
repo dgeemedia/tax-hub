@@ -41,10 +41,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return {
           id: user.id,
           email: user.email,
-          name: `${user.firstName} ${user.lastName}`,
+          name: user.firstName && user.lastName 
+            ? `${user.firstName} ${user.lastName}` 
+            : user.email,
+          userType: user.userType,
           firstName: user.firstName,
-          lastName: user.lastName,
-          userType: user.userType
+          lastName: user.lastName
         }
       }
     })
@@ -53,9 +55,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id
-        token.userType = (user as any).userType
-        token.firstName = (user as any).firstName
-        token.lastName = (user as any).lastName
+        token.userType = user.userType
+        token.firstName = user.firstName
+        token.lastName = user.lastName
       }
       return token
     },
@@ -63,8 +65,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (session.user) {
         session.user.id = token.id as string
         session.user.userType = token.userType as string
-        session.user.firstName = token.firstName as string
-        session.user.lastName = token.lastName as string
+        session.user.firstName = token.firstName as string | undefined
+        session.user.lastName = token.lastName as string | undefined
       }
       return session
     }

@@ -1,4 +1,5 @@
-import { PrismaClient } from '@prisma/client'
+// apps/web/src/lib/db.ts
+import { PrismaClient } from '@taxhub/database'
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
