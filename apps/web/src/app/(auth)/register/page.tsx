@@ -1,3 +1,4 @@
+// apps/web/src/app/(auth)/register/page.tsx
 import { RegisterForm } from "@/components/forms/RegisterForm"
 import Link from "next/link"
 
